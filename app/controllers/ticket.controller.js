@@ -1,5 +1,5 @@
 const db = require("../models");
-const Tutorial = db.tutorials;
+const Ticket = db.tickets;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
@@ -14,39 +14,39 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const tutorial = {
+  const ticket = {
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
   };
 
   // Save Tutorial in the database
-  Tutorial.create(tutorial)
+  Ticket.create(ticket)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the Ticket."
       });
     });
     
 };
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Tickets from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
   var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
 
-  Tutorial.findAll({ where: condition })
+  Ticket.findAll({ where: condition })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving tickets."
       });
     });
 };
@@ -55,13 +55,13 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-  Tutorial.findByPk(id)
+  Ticket.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Tutorial with id=" + id
+        message: "Error retrieving Ticket with id=" + id
       });
     });
 };
@@ -70,23 +70,23 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const id = req.params.id;
 
-  Tutorial.update(req.body, {
+  Ticket.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was updated successfully."
+          message: "Ticket was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+          message: `Cannot update Ticket with id=${id}. Maybe Ticket was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id
+        message: "Error updating Ticket with id=" + id
       });
     });
 };
@@ -95,54 +95,54 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-  Tutorial.destroy({
+  Ticket.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Tutorial was deleted successfully!"
+          message: "Ticket was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+          message: `Cannot delete Ticket with id=${id}. Maybe Ticket was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Tutorial with id=" + id
+        message: "Could not delete Ticket with id=" + id
       });
     });
 };
 
-// Delete all Tutorials from the database.
+// Delete all Tickets from the database.
 exports.deleteAll = (req, res) => {
-    Tutorial.destroy({
+    Ticket.destroy({
         where: {},
         truncate: false
       })
         .then(nums => {
-          res.send({ message: `${nums} Tutorials were deleted successfully!` });
+          res.send({ message: `${nums} Ticket were deleted successfully!` });
         })
         .catch(err => {
           res.status(500).send({
             message:
-              err.message || "Some error occurred while removing all tutorials."
+              err.message || "Some error occurred while removing all tickets."
           });
         });
 };
 
-// Find all published Tutorials
+// Find all published Tickets
 exports.findAllPublished = (req, res) => {
-    Tutorial.findAll({ where: { published: true } })
+    Ticket.findAll({ where: { published: true } })
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving Tickets."
       });
     });
 };
