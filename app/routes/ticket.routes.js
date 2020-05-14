@@ -1,4 +1,4 @@
-module.exports = app => {
+module.exports = (app) => {
     const tickets = require("../controllers/ticket.controller.js");
   
     var router = require("express").Router();
@@ -26,3 +26,6 @@ module.exports = app => {
   
     app.use('/api/tickets', router);
   };
+
+
+  console.log('ticket.routes.js');

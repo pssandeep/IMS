@@ -1,11 +1,14 @@
+console.log('ticket.controler.js');
 const db = require("../models");
 const Ticket = db.tickets;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tutorial
+// Create and Save a new Ticket
 exports.create = (req, res) => {
+
+  console.log('INCOMING REQUEST');
+  console.log(req.body);
   // Validate request
-  console.log(req);
   if (!req.body.title) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -13,14 +16,19 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Tutorial
+  // Create a Ticket
   const ticket = {
     title: req.body.title,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false
+    published: req.body.published ? req.body.published : false,
+    priority:req.body.priority ? req.body.priority : 'Normal',
+    severity:req.body.severity ? req.body.severity : '3',
+    client:req.body.client ? req.body.client : '',
+    status:req.body.status ? req.body.status : 'open',
+    label:req.body.label ? req.body.label : '',    
   };
 
-  // Save Tutorial in the database
+  // Save Ticket in the database
   Ticket.create(ticket)
     .then(data => {
       res.send(data);
@@ -51,7 +59,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Tutorial with an id
+// Find a single Ticket with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -66,7 +74,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Tutorial by the id in the request
+// Update a Ticket by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
 
@@ -91,7 +99,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Ticket with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
