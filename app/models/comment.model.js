@@ -26,11 +26,18 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW,
     },
-  });
-
-  Comment.associate = models => {
-    Comment.belongsTo(models.Ticket);
-  };
+  },
+  
+  {
+    timestamps: true,
+    classMethods: {
+     associate: function (models) {
+      Comment.hasMany(models.Ticket);
+     }
+    }
+   }
+  
+  );
 
   return Comment;
 };
