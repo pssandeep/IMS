@@ -11,6 +11,12 @@ module.exports = (app) => {
     // Create a new Comments
     router.get("/:ticketId/comments/:commentId", comments.findOne);    
 
+    // Delete a Comments with id
+    router.delete("/:ticketId/comments/:commentId", comments.delete);
+
+    // Delete a Comments with id
+    router.delete("/:ticketId/comments/", comments.delete);
+
     app.use('/api/tickets', router);
 
 };

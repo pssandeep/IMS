@@ -66,18 +66,18 @@ exports.findOne = (req, res) => {
   };
   const conditionComment = {
     where: { ticketId: id },
-  };  
+  };
   Ticket.findByPk(id)
     .then((data) => {
       Comment.findAll(conditionComment)
-      .then((commentResponse) =>{
-        data.dataValues.comments=[...commentResponse];
-        res.send(data);
-      })
-      .catch((err) => {
-        data.dataValues.comments=[];
-        res.send(data);
-      });
+        .then((commentResponse) => {
+          data.dataValues.comments = [...commentResponse];
+          res.send(data);
+        })
+        .catch((err) => {
+          data.dataValues.comments = [];
+          res.send(data);
+        });
     })
     .catch((err) => {
       res.status(500).send({
@@ -89,7 +89,6 @@ exports.findOne = (req, res) => {
 // Update a Ticket by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-
   Ticket.update(req.body, {
     where: { id: id },
   })
