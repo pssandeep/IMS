@@ -2,6 +2,9 @@ module.exports = (app) => {
   const comments = require("../controllers/comment.controller.js");
   var router = require("express").Router();
 
+  //Check if the Ticket exists.
+  router.use("/:ticketId/comments/*", comments.doesTicketExits);
+
   // Create a new Comments
   router.post("/:ticketId/comments", comments.create);
 
@@ -19,9 +22,6 @@ module.exports = (app) => {
 
   // Delete all Comments under a ticket -
   router.delete("/:ticketId/comments/", comments.delete);
-
-  //Check if the Ticket exists.
-  app.use("/api/tickets/:ticketId",comments.doesTicketExits);
 
   app.use("/api/tickets", router);
 };

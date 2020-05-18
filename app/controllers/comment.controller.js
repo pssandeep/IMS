@@ -7,10 +7,11 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Ticket
 exports.create = (req, res) => {
+  console.log(req.body.comment);
   // Validate request
   if (!req.body.comment) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "comments can not be empty!",
     });
     return;
   }
@@ -123,7 +124,7 @@ exports.delete = (req, res) => {
     });
 };
 
-exports.doesTicketExits = (req, res) => {
+exports.doesTicketExits = (req, res, next) => {
   console.log("doesTicketExits");
   console.log(req.params);
   const id = req.params.ticketId;
@@ -132,6 +133,7 @@ exports.doesTicketExits = (req, res) => {
   };
   Tickets.findByPk(id)
     .then((data) => {
+      console.log(data.dataValues);
       next();
     })
     .catch((err) => {
