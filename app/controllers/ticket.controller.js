@@ -7,8 +7,6 @@ const Op = db.Sequelize.Op;
 
 // Create and Save a new Ticket
 exports.create = (req, res) => {
-  console.log("INCOMING REQUEST");
-  console.log(req.body);
   // Validate request
   if (!req.body.title) {
     res.status(400).send({

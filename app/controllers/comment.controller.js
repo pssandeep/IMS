@@ -2,6 +2,7 @@ console.log("comment.controller.js");
 
 const db = require("../models");
 const Comments = db.comments;
+const Tickets = db.tickets;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Ticket
@@ -65,18 +66,43 @@ exports.findOne = (req, res) => {
     });
 };
 
+// Update a Comment by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.commentId;
+  const ticketId = req.params.ticketId;
+  Comments.update(req.body, {
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Comment was updated successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update Comment with id=${id} under ticket with id = ${ticketId}. Maybe Comment was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Comment with id=" + id,
+      });
+    });
+};
+
 // Delete a Comment with the specified id in the request
+// Or all comments under the ticket.
 exports.delete = (req, res) => {
   const id = req.params.commentId;
   const ticketId = req.params.ticketId;
 
   let delCondition;
-  if(id){
-    delCondition = {where: { id: id, ticketId : ticketId },}
-  }else {
-    delCondition = {where: { ticketId : ticketId },}
+  if (id) {
+    delCondition = { where: { id: id, ticketId: ticketId } };
+  } else {
+    delCondition = { where: { ticketId: ticketId } };
   }
-  console.log(delCondition);
 
   Comments.destroy(delCondition)
     .then((num) => {
@@ -93,6 +119,24 @@ exports.delete = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message: "Could not delete Comment with id=" + id,
+      });
+    });
+};
+
+exports.doesTicketExits = (req, res) => {
+  console.log("doesTicketExits");
+  console.log(req.params);
+  const id = req.params.ticketId;
+  const conditionTicket = {
+    where: { id: id },
+  };
+  Tickets.findByPk(id)
+    .then((data) => {
+      next();
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Ticket with id=${id} does not exist`,
       });
     });
 };

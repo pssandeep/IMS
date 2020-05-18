@@ -3,7 +3,7 @@ module.exports = (app) => {
   
     var router = require("express").Router();
   
-    // Create a new Tutorial
+    // Create a new Ticket
     router.post("/", tickets.create);
   
     // Retrieve all tickets
@@ -12,17 +12,17 @@ module.exports = (app) => {
     // Retrieve all published tickets
     router.get("/published", tickets.findAllPublished);
   
-    // Retrieve a single Tutorial with id
+    // Retrieve a single Ticket with id
     router.get("/:id", tickets.findOne);
   
-    // Update a Tutorial with id
+    // Update a Ticket with id
     router.put("/:id", tickets.update);
   
-    // Delete a Tutorial with id
+    // Delete a Ticket with id
     router.delete("/:id", tickets.delete);
   
-    // Create a new Tutorial
-    router.delete("/", tickets.deleteAll);
+    // Create a new Ticket
+    //router.delete("/", tickets.deleteAll);
   
     app.use('/api/tickets', router);
   };

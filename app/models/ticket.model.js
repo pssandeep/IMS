@@ -33,7 +33,7 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     Ticket.associate = models => {
-      Ticket.hasMany(models.Comment, { onDelete: 'CASCADE' });
+      Ticket.hasMany(models.Comment, { onDelete: 'CASCADE', hooks : "true" });
     };
   
     return Ticket;
